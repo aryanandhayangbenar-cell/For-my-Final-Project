@@ -1,0 +1,20 @@
+function doGet(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  
+  var id = e.parameter.id || "N/A";
+  var name = e.parameter.name || "Unknown";
+  var sim = e.parameter.sim || "0";
+  
+  // Append the row: Timestamp (Col A), Face ID (Col B), Name (Col C), Similarity (Col D), Status (Col E)
+  sheet.appendRow([new Date(), id, name, sim, "Present"]);
+  
+  // Get the row number that was just added
+  var lastRow = sheet.getLastRow();
+  
+  // Turn the box beside Similarity (Column E) green
+  var statusCell = sheet.getRange(lastRow, 5); // Column 5 = E
+  statusCell.setBackground("#b7e1cd");         // Soft Google Sheets green
+  statusCell.setFontWeight("bold");
+  
+  return ContentService.createTextOutput("Logged");
+}
